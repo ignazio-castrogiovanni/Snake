@@ -110,17 +110,23 @@ var gameGoingOn = false;
  }
   function createNewFood() {
     // Put the food in a random position;
-   var foodPos = getRandomPosition();
-
-   var droppingFoodArea = snakeWorld[foodPos.x][foodPos.y];
+    var foodPos, droppingFoodArea;
+    do {
+      foodPos = getRandomPosition();
+      droppingFoodArea = snakeWorld[foodPos.x][foodPos.y];
+    }
    // We're not than mean to put the food on the wall... Or put it in his body
-   while ((droppingFoodArea === 'X') || (droppingFoodArea === 'S'))
-   {
-     foodPos = getRandomPosition();
-   }
+   while ((droppingFoodArea === 'X') || isSnake(foodPos));
+
    snakeWorld[foodPos.x][foodPos.y] = 'F';
+   console.log(snakeWorld);
   }
 
+function isSnake(foodPos) {
+  return snake.body.some(function(item) {
+    return ((foodPos.x === item.x) && (foodPos.y === item.y));
+  });
+}
   function clearBoard() {
     var gameBoard = document.getElementById("gameBoard");
     while (gameBoard.firstChild) {
@@ -149,7 +155,19 @@ var gameGoingOn = false;
       for (var colIter = 0; colIter < worldWidth; ++colIter) {
         // Set the row.
         var currentElem = document.createElement('div');
-        currentElem.setAttribute('class', snakeWorld[rowIter][colIter] + ' cell');
+
+        var cellClass = null;
+        // Whatever is not a wall or food or empty space is a snake
+        switch (snakeWorld[rowIter][colIter]) {
+          case 'O':
+          case 'X':
+          case 'F':
+          cellClass = snakeWorld[rowIter][colIter];
+          break;
+          default:
+          cellClass = 'S';
+        }
+        currentElem.setAttribute('class', cellClass + ' cell ');
         currentElem.innerHTML = snakeWorld[rowIter][colIter];
         currentRow.appendChild(currentElem);
       }
@@ -275,6 +293,7 @@ if(snake.isGrowing) {
   function gameOverWin() {
     alert(finalMessageWin);
     stopGame();
+    window.location="http://ignazio-castrogiovanni.com";
   }
 
   function growSnake() {
@@ -283,7 +302,7 @@ if(snake.isGrowing) {
       gameOverWin();
     }
 
-    timeout = timeout - 50;
+    timeout = timeout - 35;
     // Add an element to the end of the tail.
     // Set isGrowing property of the snake to 'true' so that the growing can be handled along with the moving.
     snake.isGrowing = true;

@@ -4,8 +4,8 @@ var worldWidth = 15;
 
 var snakeWorld = [];
 var snakeMessage = ['P','l','e','a','s','e','-','h','i','r','e','-','m','e','!',':',')'];
-var finalMessageWin = "Good job! You completed the level with X points. You're shortlisted to hire me. Find information on how to reach me at ignazio.castrogiovanni.com";
-var finalMessageLoose = "We genuinely appreciate your skills. Unfortunately we require someone with a higher level of expertise in typing and a faster reaction to unpredictable event so I regret to inform you we won't proceed with your hiring application :(";
+var finalMessageWin = "Good job! You completed the level. You're shortlisted to hire me. Find information on how to reach me at ignazio.castrogiovanni.com";
+var finalMessageLoose = "Ops, you crashed :(";
 
 var initialSnakePosition = {
   x : Math.floor(worldHeight/2),
